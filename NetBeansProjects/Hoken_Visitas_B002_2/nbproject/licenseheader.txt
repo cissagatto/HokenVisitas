@@ -1,0 +1,8 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix} Todos os direitos reservados. Elaine Cecília Gatto. 2018
+${licensePrefix}  ${licensePrefix}
+<#if licenseLast??>
+${licenseLast}
+</#if>
