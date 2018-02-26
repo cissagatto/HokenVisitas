@@ -8,16 +8,19 @@ package visitas.hoken.modelos;
  *
  * @author Elaine Cecília Gatto - Cissa (elainececiliagatto@gmail.com)
  */
-public class Vendedores {
+
+public class Vendedor {
 
     private int CodigoVendedor;
+   
     private String NomeVendedor;
+    
     private boolean Ativo;
 
-    public Vendedores() {
+    public Vendedor() {
     }
 
-    public Vendedores(int CodigoVendedor, String NomeVendedor, boolean Ativo) {
+    public Vendedor(int CodigoVendedor, String NomeVendedor, boolean Ativo) {
         this.CodigoVendedor = CodigoVendedor;
         this.NomeVendedor = NomeVendedor;
         this.Ativo = Ativo;
@@ -47,9 +50,12 @@ public class Vendedores {
         this.Ativo = Ativo;
     }
 
+
     @Override
     public String toString() {
         return "Vendedores{" + "CodigoVendedor=" + CodigoVendedor + ", NomeVendedor=" + NomeVendedor + ", Ativo=" + Ativo + '}';
     }
 
+    
+    
 }

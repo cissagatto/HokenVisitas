@@ -15,7 +15,8 @@ import visitas.hoken.modelos.*;
 public class VisitasControleJanelas {
 
     VisitasDAO dao = new VisitasDAO();
-    Visitas visita = new Visitas();    
+    Visitas visita = new Visitas();   
+    VendedorDao daovend = new VendedorDao();
 
     public VisitasControleJanelas() {
 
@@ -43,9 +44,10 @@ public class VisitasControleJanelas {
         return x;
     }
 
-    public List<Vendedores> Vendedores() {
+    public List<Vendedor> Vendedores() {
         try {
-            List<Vendedores> vendedores = dao.getListaVendedores();
+            //List<Vendedor> vendedores = dao.getListaVendedores();
+            List<Vendedor> vendedores = daovend.getListaVendedores();
             return vendedores;
         } catch (Exception e) {
             System.err.println("\n============================================");

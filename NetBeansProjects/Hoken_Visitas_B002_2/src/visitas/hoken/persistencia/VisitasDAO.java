@@ -27,8 +27,8 @@ public class VisitasDAO {
     String senha;
 
     public VisitasDAO() {
-        System.out.println("\n STATUS DA CONEXÃO COM O BANCO: " + conecta.statusConection());
         this.connection = conecta.getConexaoMySQL();
+        System.out.println("\n STATUS DA CONEXÃO COM O BANCO: " + conecta.statusConection());
     }
 
     public boolean Login(String nome1, String senha1) {
@@ -102,14 +102,15 @@ public class VisitasDAO {
             throw new RuntimeException(e);
         }
     }
-
-    public List<Vendedores> getListaVendedores() {
+    
+    /*
+    public List<Vendedor> getListaVendedores() {
         try {
-            List<Vendedores> ven = new ArrayList<Vendedores>();
+            List<Vendedor> ven = new ArrayList<Vendedor>();
             PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM vendedor");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Vendedores v = new Vendedores();
+                Vendedor v = new Vendedor();
                 v.setCodigoVendedor(rs.getInt("codigoVendedor"));
                 v.setNomeVendedor(rs.getString("nomeVendedor"));
                 ven.add(v);
@@ -128,7 +129,7 @@ public class VisitasDAO {
             throw new RuntimeException(e);
         }
     }
-
+*/
     public void insere(Visitas visita) {
         String sql = "INSERT INTO tablevisita ("
                 + "nome,"
@@ -196,7 +197,7 @@ public class VisitasDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Visitas v = new Visitas();
-                v.setCodigoVisista(rs.getInt("codigoVisita"));
+                v.setCodigoVisita(rs.getInt("codigoVisita"));
                 v.setNome(rs.getString("nome"));
                 v.setEndereco(rs.getString("endereco"));
                 v.setComplemento(rs.getString("complemento"));
@@ -243,7 +244,7 @@ public class VisitasDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Visitas v = new Visitas();
-                v.setCodigoVisista(rs.getInt("codigoVisita"));
+                v.setCodigoVisita(rs.getInt("codigoVisita"));
                 v.setNome(rs.getString("nome"));
                 v.setEndereco(rs.getString("endereco"));
                 v.setComplemento(rs.getString("complemento"));
@@ -282,7 +283,7 @@ public class VisitasDAO {
             stmt.setInt(1, codigo);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                v.setCodigoVisista(rs.getInt("codigoVisita"));
+                v.setCodigoVisita(rs.getInt("codigoVisita"));
                 v.setNome(rs.getString("nome"));
                 v.setEndereco(rs.getString("endereco"));
                 v.setComplemento(rs.getString("complemento"));
@@ -312,6 +313,52 @@ public class VisitasDAO {
         }
     }
 
+    public List<Visitas> getListaVisitas() {
+        try {
+            List<Visitas> visita = new ArrayList<Visitas>();
+            String sql = "SELECT * FROM tablevisita";
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Visitas v = new Visitas();
+                v.setCodigoVisita(rs.getInt("codigoVisita"));
+                v.setNome(rs.getString("nome"));
+                v.setEndereco(rs.getString("endereco"));
+                v.setComplemento(rs.getString("complemento"));
+                v.setBairro(rs.getString("bairro"));
+                v.setCep(rs.getString("cep"));
+                v.setCidade(rs.getString("cidade"));
+                v.setEstado(rs.getString("estado"));
+                v.setTelefoneFixo(rs.getString("telefoneFixo"));
+                v.setTelefoneCelular(rs.getString("telefoneCelular"));
+                v.setTelefoneRecado(rs.getString("telefoneRecado"));
+                v.setData(rs.getDate("data"));
+                v.setHora(rs.getTime("hora"));
+                v.setDiaSemana(rs.getString("diaSemana"));
+                v.setIndicacao(rs.getString("indicacao"));
+                v.setVendedor1(rs.getString("vendedor1"));
+                v.setVendedor2(rs.getString("vendedor2"));
+                v.setVendeu(rs.getBoolean("vendeu"));
+                v.setCancelada(rs.getBoolean("cancelada"));
+                v.setObservacoes(rs.getString("observacoes"));
+                visita.add(v);
+            }
+            rs.close();
+            stmt.close();
+            conecta.FecharConexao();
+            return visita;
+        } catch (SQLException e) {
+            System.err.println("\n============================================");
+            System.err.println("\nCLASSE VISITAS DAO");
+            System.err.println("\nERRO NO MÉTODO LISTA GET NOME");
+            System.err.println("\nCAUSA: " + e.getCause());
+            System.err.println("\nMENSAGEM " + e.getMessage());
+            e.printStackTrace();
+            System.err.println("\n============================================");
+            throw new RuntimeException(e);
+        }
+    }
+    
     public void altera(Visitas visita) {
         String sql = "update tablevisita set "
                 + "nome=?,"
@@ -355,7 +402,7 @@ public class VisitasDAO {
             stmt.setBoolean(17, visita.isVendeu());
             stmt.setBoolean(18, visita.isCancelada());
             stmt.setString(19, visita.getObservacoes());
-            stmt.setInt(20, visita.getCodigoVisista());
+            stmt.setInt(20, visita.getCodigoVisita());
             stmt.execute();
             stmt.close();
             conecta.FecharConexao();

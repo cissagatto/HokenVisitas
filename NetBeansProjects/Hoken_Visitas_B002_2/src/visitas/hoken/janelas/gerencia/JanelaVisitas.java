@@ -3,7 +3,6 @@
  *    * 
  */
 package visitas.hoken.janelas.gerencia;
-
 import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -13,7 +12,6 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.SQLException;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -27,13 +25,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.stage.FileChooser;
 import javax.swing.Action;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
@@ -43,9 +44,12 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import visitas.hoken.backup.MySQLBackup;
 import visitas.hoken.modelos.*;
 import visitas.hoken.utils.*;
-import visitas.hoken.janelas.relatorios.*;
 import visitas.hoken.controle.VisitasControleJanelas;
 import visitas.hoken.persistencia.ConexaoMysql;
+import visitas.hoken.persistencia.VendedorDao;
+import visitas.hoken.persistencia.VisitasDAO;
+import visitas.hoken.relatorios.classes.EnumRelatorios;
+import visitas.hoken.relatorios.classes.RelatoriosJasper;
 
 /**
  *
@@ -62,7 +66,7 @@ public class JanelaVisitas extends javax.swing.JFrame {
     LocalDate ld;
     Utils u = new Utils();
     VisitasControleJanelas control = new VisitasControleJanelas();
-    Vendedores v = new Vendedores();
+    Vendedor v = new Vendedor();
     Visitas visita = new Visitas();
     Visitas visita2 = new Visitas();
     DefaultListModel lista = new DefaultListModel();
@@ -72,8 +76,12 @@ public class JanelaVisitas extends javax.swing.JFrame {
     ImageIcon erro = new ImageIcon(getClass().getResource("/visitas/hoken/imagens/erro.png"));
     ImageIcon salvo = new ImageIcon(getClass().getResource("/visitas/hoken/imagens/salvar.png"));
     ImageIcon impressao = new ImageIcon(getClass().getResource("/visitas/hoken/imagens/impressao.png"));
+    boolean inserir = false;
     DefaultTableModel modelo = new DefaultTableModel();
-    ImprimirVisita imprimeV;
+    VendedoresTableModel tableModel = new VendedoresTableModel();
+    VisitasTableModel visitasTableModel = new VisitasTableModel();
+    int codigoRelatorio;
+    //ImprimirVisita imprimeV;
 
     /**
      * Creates new form JanelaVisitas
@@ -89,9 +97,40 @@ public class JanelaVisitas extends javax.swing.JFrame {
         jl_AlterarVisita.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0), "down");
         jl_AlterarVisita.getActionMap().put("down",
                 (Action) jl_AlterarVisita.getActionForKeyStroke(KeyStroke.getKeyStroke(KeyEvent.VK_KP_DOWN, 0)));
+        
+        
+        
 
     }
-
+    
+    //métodos do inserirVendedor
+    
+    public void cleanForms(){
+        
+        //Limpando formes
+        jtf_codigo.setText(null);
+        jtf_nome.setText(null);
+        jtf_ativo.setSelected(true);
+        
+    }
+    
+    public void enableForms(){
+        
+      
+       //jtf_codigo.setEnabled(true);
+       jtf_nome.setEnabled(true);
+       jtf_ativo.setEnabled(true);
+    }
+    
+    public void disableForms(){
+       
+       //jtf_codigo.setEnabled(false);
+       jtf_nome.setEnabled(false);
+       jtf_ativo.setEnabled(false);
+    }
+    
+    ///
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -140,6 +179,7 @@ public class JanelaVisitas extends javax.swing.JFrame {
         jLabObservacoes = new javax.swing.JLabel();
         jsp_observacao = new javax.swing.JScrollPane();
         jta_observacao = new javax.swing.JTextArea();
+        jtb_vendedor = new javax.swing.JButton();
         DialogoAlteraVisita = new javax.swing.JDialog();
         jLabel5 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
@@ -159,8 +199,25 @@ public class JanelaVisitas extends javax.swing.JFrame {
         js_Principal = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         jtf_BuscarNomeImprimir = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jtable_visitas = new javax.swing.JTable();
+        jtb_buscar = new javax.swing.JButton();
+        jtb_imprimir = new javax.swing.JButton();
+        jtb_fechar = new javax.swing.JButton();
+        DialogoVendedor = new javax.swing.JDialog();
+        jScrollPane4 = new javax.swing.JScrollPane();
         jTable_Imprimir = new javax.swing.JTable();
+        jtf_codigo = new javax.swing.JTextField();
+        jtf_nome = new javax.swing.JTextField();
+        jtf_ativo = new javax.swing.JCheckBox();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jtb_save = new javax.swing.JButton();
+        jtb_delete = new javax.swing.JButton();
+        jtb_update = new javax.swing.JButton();
+        jtb_close = new javax.swing.JButton();
+        jtb_insert = new javax.swing.JButton();
         Hoken = new javax.swing.JLabel();
         js_JanelaVisitas = new javax.swing.JSeparator();
         BarraDeMenus = new javax.swing.JMenuBar();
@@ -168,14 +225,14 @@ public class JanelaVisitas extends javax.swing.JFrame {
         jmi_ImprimirVisita = new javax.swing.JMenuItem();
         jmi_Backup = new javax.swing.JMenuItem();
         jmi_Sair = new javax.swing.JMenuItem();
-        jMenu_Editar = new javax.swing.JMenu();
         jMenu_Vendedores = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu_Visitas = new javax.swing.JMenu();
         jmi_NovaVisita = new javax.swing.JMenuItem();
         jmi_AlterarVisita = new javax.swing.JMenuItem();
         jSeparator4 = new javax.swing.JPopupMenu.Separator();
         jMenu_Relatorios = new javax.swing.JMenu();
-        jMenu_Buscar = new javax.swing.JMenu();
+        jmi_todasvisitas = new javax.swing.JMenuItem();
         jMenu_Sobre = new javax.swing.JMenu();
 
         DialogoNovaVisita.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -185,6 +242,7 @@ public class JanelaVisitas extends javax.swing.JFrame {
         DialogoNovaVisita.setMinimumSize(new java.awt.Dimension(640, 480));
         DialogoNovaVisita.setModal(true);
         DialogoNovaVisita.setName("Dialogo Nova Visita"); // NOI18N
+        DialogoNovaVisita.setResizable(false);
         DialogoNovaVisita.setSize(new java.awt.Dimension(800, 600));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -408,15 +466,10 @@ public class JanelaVisitas extends javax.swing.JFrame {
         jcb_VendPrin.setNextFocusableComponent(jcb_VendSe);
         jcb_VendPrin.removeAllItems();
         jcb_VendPrin.addItem("");
-        List<Vendedores> vendp = control.Vendedores();
-        for (Vendedores v : vendp) {
+        List<visitas.hoken.modelos.Vendedor> vendp = control.Vendedores();
+        for (visitas.hoken.modelos.Vendedor v : vendp) {
             jcb_VendPrin.addItem(v.getNomeVendedor());
         }
-        jcb_VendPrin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcb_VendPrinActionPerformed(evt);
-            }
-        });
 
         jcb_VendSe.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jcb_VendSe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -424,8 +477,8 @@ public class JanelaVisitas extends javax.swing.JFrame {
         jcb_VendSe.setNextFocusableComponent(jta_observacao);
         jcb_VendSe.removeAllItems();
         jcb_VendSe.addItem("");
-        List<Vendedores> vends = control.Vendedores();
-        for (Vendedores v : vends) {
+        List<visitas.hoken.modelos.Vendedor> vends = control.Vendedores();
+        for (visitas.hoken.modelos.Vendedor v : vends) {
             jcb_VendSe.addItem(v.getNomeVendedor());
         }
         jcb_VendSe.addActionListener(new java.awt.event.ActionListener() {
@@ -442,6 +495,13 @@ public class JanelaVisitas extends javax.swing.JFrame {
         jta_observacao.setRows(5);
         jta_observacao.setNextFocusableComponent(jftCEP);
         jsp_observacao.setViewportView(jta_observacao);
+
+        jtb_vendedor.setText("Cadastrar Vendedor");
+        jtb_vendedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtb_vendedorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout DialogoNovaVisitaLayout = new javax.swing.GroupLayout(DialogoNovaVisita.getContentPane());
         DialogoNovaVisita.getContentPane().setLayout(DialogoNovaVisitaLayout);
@@ -461,17 +521,19 @@ public class JanelaVisitas extends javax.swing.JFrame {
                                     .addComponent(jdc_Data, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
+                                .addComponent(jLabObservacoes)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jsp_observacao, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
                                 .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabVenS)
                                     .addComponent(jLabVenP))
                                 .addGap(18, 18, 18)
                                 .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jcb_VendPrin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jcb_VendSe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
-                                .addComponent(jLabObservacoes)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jsp_observacao, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jcb_VendSe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jtb_vendedor))
                             .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
                                 .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jlabIndicacao)
@@ -544,14 +606,19 @@ public class JanelaVisitas extends javax.swing.JFrame {
                         .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jlabIndicacao)
                             .addComponent(jtfIndicacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabVenP)
-                            .addComponent(jcb_VendPrin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabVenS)
-                            .addComponent(jcb_VendSe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabVenP)
+                                    .addComponent(jcb_VendPrin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabVenS)
+                                    .addComponent(jcb_VendSe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jtb_vendedor)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jLabObservacoes)
@@ -802,34 +869,34 @@ public class JanelaVisitas extends javax.swing.JFrame {
             }
         });
 
-        jTable_Imprimir.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jTable_Imprimir.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Código", "Nome", "Data", "Hora"
+        jtable_visitas.setModel(visitasTableModel);
+        jtable_visitas.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtable_visitasKeyPressed(evt);
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
+        });
+        jScrollPane6.setViewportView(jtable_visitas);
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+        jtb_buscar.setText("Buscar");
+        jtb_buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtb_buscarActionPerformed(evt);
             }
         });
-        jTable_Imprimir.setColumnSelectionAllowed(true);
-        jTable_Imprimir.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable_ImprimirMouseClicked(evt);
+
+        jtb_imprimir.setLabel("Imprimir");
+        jtb_imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtb_imprimirActionPerformed(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable_Imprimir);
-        jTable_Imprimir.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        jtb_fechar.setLabel("Sair");
+        jtb_fechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtb_fecharActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout DialogoImprimirLayout = new javax.swing.GroupLayout(DialogoImprimir.getContentPane());
         DialogoImprimir.getContentPane().setLayout(DialogoImprimirLayout);
@@ -837,18 +904,29 @@ public class JanelaVisitas extends javax.swing.JFrame {
             DialogoImprimirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DialogoImprimirLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(DialogoImprimirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(DialogoImprimirLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jtf_BuscarNomeImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)
-                    .addComponent(jLbIcone, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGroup(DialogoImprimirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DialogoImprimirLayout.createSequentialGroup()
                         .addComponent(js_Principal, javax.swing.GroupLayout.PREFERRED_SIZE, 498, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)))
-                .addGap(0, 27, Short.MAX_VALUE))
+                        .addGap(40, 108, Short.MAX_VALUE))
+                    .addGroup(DialogoImprimirLayout.createSequentialGroup()
+                        .addGroup(DialogoImprimirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLbIcone, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(DialogoImprimirLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addGroup(DialogoImprimirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
+                                    .addGroup(DialogoImprimirLayout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jtf_BuscarNomeImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jtb_buscar)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(DialogoImprimirLayout.createSequentialGroup()
+                                        .addComponent(jtb_imprimir)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jtb_fechar)))))
+                        .addGap(16, 16, 16))))
         );
         DialogoImprimirLayout.setVerticalGroup(
             DialogoImprimirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -860,21 +938,159 @@ public class JanelaVisitas extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(DialogoImprimirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jtf_BuscarNomeImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(144, Short.MAX_VALUE))
+                    .addComponent(jLabel1)
+                    .addComponent(jtb_buscar))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(DialogoImprimirLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtb_imprimir)
+                    .addComponent(jtb_fechar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        boolean inserir = false;
+        this.disableForms();
+        DialogoVendedor.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        DialogoVendedor.setModal(true);
+        DialogoVendedor.setName("dialog_vendedor"); // NOI18N
+        DialogoVendedor.setResizable(false);
+        DialogoVendedor.setSize(new java.awt.Dimension(600, 393));
+
+        jTable_Imprimir.setModel(tableModel);
+        jTable_Imprimir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_ImprimirMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(jTable_Imprimir);
+
+        jtf_codigo.setEditable(false);
+
+        jtf_nome.setPreferredSize(new java.awt.Dimension(100, 20));
+
+        jtf_ativo.setText("Ativo?");
+
+        jLabel4.setText("Código");
+
+        jLabel6.setText("Nome");
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel7.setText("Manutenção de Vendedor");
+
+        jtb_save.setText("Salvar");
+        jtb_save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtb_saveActionPerformed(evt);
+            }
+        });
+
+        jtb_delete.setText("Deletar");
+        jtb_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtb_deleteActionPerformed(evt);
+            }
+        });
+
+        jtb_update.setText("Alterar");
+        jtb_update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtb_updateActionPerformed(evt);
+            }
+        });
+
+        jtb_close.setText("Fechar");
+        jtb_close.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jtb_close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtb_closeActionPerformed(evt);
+            }
+        });
+
+        jtb_insert.setText("Inserir");
+        jtb_insert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtb_insertActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout DialogoVendedorLayout = new javax.swing.GroupLayout(DialogoVendedor.getContentPane());
+        DialogoVendedor.getContentPane().setLayout(DialogoVendedorLayout);
+        DialogoVendedorLayout.setHorizontalGroup(
+            DialogoVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(DialogoVendedorLayout.createSequentialGroup()
+                .addGroup(DialogoVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(DialogoVendedorLayout.createSequentialGroup()
+                        .addGroup(DialogoVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(DialogoVendedorLayout.createSequentialGroup()
+                                .addGap(164, 164, 164)
+                                .addComponent(jLabel7))
+                            .addGroup(DialogoVendedorLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(DialogoVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel6))
+                                .addGap(29, 29, 29)
+                                .addGroup(DialogoVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtf_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(DialogoVendedorLayout.createSequentialGroup()
+                                        .addComponent(jtf_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jtf_ativo)))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(DialogoVendedorLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(DialogoVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
+                            .addGroup(DialogoVendedorLayout.createSequentialGroup()
+                                .addComponent(jtb_save)
+                                .addGap(30, 30, 30)
+                                .addComponent(jtb_insert)
+                                .addGap(29, 29, 29)
+                                .addComponent(jtb_update)
+                                .addGap(28, 28, 28)
+                                .addComponent(jtb_delete)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jtb_close)))))
+                .addContainerGap())
+        );
+        DialogoVendedorLayout.setVerticalGroup(
+            DialogoVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DialogoVendedorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addGap(35, 35, 35)
+                .addGroup(DialogoVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtf_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jtf_ativo))
+                .addGap(18, 18, 18)
+                .addGroup(DialogoVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtf_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addGroup(DialogoVendedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jtb_save)
+                    .addComponent(jtb_delete)
+                    .addComponent(jtb_update)
+                    .addComponent(jtb_close)
+                    .addComponent(jtb_insert))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Hoken Visitas: Gerenciamento");
         setBackground(new java.awt.Color(255, 255, 255));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         setForeground(new java.awt.Color(255, 204, 204));
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/visitas/hoken/imagens/h.jpeg")));
         setMinimumSize(new java.awt.Dimension(800, 600));
         setName("jFVisita"); // NOI18N
         setResizable(false);
+        setSize(new java.awt.Dimension(600, 293));
 
         Hoken.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         Hoken.setIcon(new javax.swing.ImageIcon(getClass().getResource("/visitas/hoken/imagens/hoken.jpeg"))); // NOI18N
@@ -908,20 +1124,29 @@ public class JanelaVisitas extends javax.swing.JFrame {
         jmi_Sair.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
         jmi_Sair.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jmi_Sair.setText("Sair");
+        jmi_Sair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_SairActionPerformed(evt);
+            }
+        });
         jMenu_Arquivo.add(jmi_Sair);
 
         BarraDeMenus.add(jMenu_Arquivo);
-
-        jMenu_Editar.setMnemonic('E');
-        jMenu_Editar.setText("Editar");
-        jMenu_Editar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jMenu_Editar.setMargin(new java.awt.Insets(5, 5, 5, 5));
-        BarraDeMenus.add(jMenu_Editar);
 
         jMenu_Vendedores.setMnemonic('N');
         jMenu_Vendedores.setText("Vendedores");
         jMenu_Vendedores.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jMenu_Vendedores.setMargin(new java.awt.Insets(5, 5, 5, 5));
+
+        jMenuItem2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jMenuItem2.setText("Cadastro");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu_Vendedores.add(jMenuItem2);
+
         BarraDeMenus.add(jMenu_Vendedores);
 
         jMenu_Visitas.setMnemonic('V');
@@ -958,13 +1183,18 @@ public class JanelaVisitas extends javax.swing.JFrame {
         jMenu_Relatorios.setText("Relatórios");
         jMenu_Relatorios.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jMenu_Relatorios.setMargin(new java.awt.Insets(5, 5, 5, 5));
-        BarraDeMenus.add(jMenu_Relatorios);
 
-        jMenu_Buscar.setMnemonic('B');
-        jMenu_Buscar.setText("Buscar");
-        jMenu_Buscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jMenu_Buscar.setMargin(new java.awt.Insets(5, 5, 5, 5));
-        BarraDeMenus.add(jMenu_Buscar);
+        jmi_todasvisitas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jmi_todasvisitas.setText("Todas Visitas");
+        jmi_todasvisitas.setToolTipText("");
+        jmi_todasvisitas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_todasvisitasActionPerformed(evt);
+            }
+        });
+        jMenu_Relatorios.add(jmi_todasvisitas);
+
+        BarraDeMenus.add(jMenu_Relatorios);
 
         jMenu_Sobre.setMnemonic('S');
         jMenu_Sobre.setText("Sobre");
@@ -1000,8 +1230,10 @@ public class JanelaVisitas extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Hoken, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
-                    .addComponent(js_JanelaVisitas))
+                    .addComponent(Hoken, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(665, 665, 665)
+                        .addComponent(js_JanelaVisitas)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -1011,10 +1243,11 @@ public class JanelaVisitas extends javax.swing.JFrame {
                 .addComponent(Hoken, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(js_JanelaVisitas, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(453, Short.MAX_VALUE))
+                .addContainerGap(366, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jmi_ImprimirVisitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_ImprimirVisitaActionPerformed
@@ -1184,9 +1417,9 @@ public class JanelaVisitas extends javax.swing.JFrame {
             control.InsereVisita(visita);
             jp.showMessageDialog(DialogoNovaVisita, "Visita Cadastrada com Sucesso!", "OK", jp.INFORMATION_MESSAGE, salvo);
             DialogoNovaVisita.setVisible(false);
-            imprimeV = new ImprimirVisita(visita);
-            JOptionPane.showMessageDialog(DialogoNovaVisita, "PDF criado com sucesso!");
-            Desktop.getDesktop().open(new File("C:\\Users\\Public\\Visita.pdf"));
+            //imprimeV = new ImprimirVisita(visita);
+            //JOptionPane.showMessageDialog(DialogoNovaVisita, "PDF criado com sucesso!");
+            //Desktop.getDesktop().open(new File("C:\\Users\\Public\\Visita.pdf"));
         } catch (Exception e) {
             jp.showMessageDialog(DialogoNovaVisita, "Erro ao Cadastrar Visita!"
                     + "\n Causa: " + e.getCause(), "ERRO", jp.ERROR_MESSAGE, erro);
@@ -1204,10 +1437,6 @@ public class JanelaVisitas extends javax.swing.JFrame {
     private void jtfSemanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfSemanaActionPerformed
 
     }//GEN-LAST:event_jtfSemanaActionPerformed
-
-    private void jcb_VendPrinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_VendPrinActionPerformed
-
-    }//GEN-LAST:event_jcb_VendPrinActionPerformed
 
     private void jcb_VendSeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcb_VendSeActionPerformed
 
@@ -1315,7 +1544,7 @@ public class JanelaVisitas extends javax.swing.JFrame {
                             DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
                             jTable_Alterar.setModel(new javax.swing.table.DefaultTableModel(
                                     new Object[][]{
-                                        {"Código", v.getCodigoVisista()},
+                                        {"Código", v.getCodigoVisita()},
                                         {"Nome", v.getNome()},
                                         {"Endereço", v.getEndereco()},
                                         {"Complemento", v.getComplemento()},
@@ -1342,7 +1571,7 @@ public class JanelaVisitas extends javax.swing.JFrame {
                             jtp_1.setSelectedIndex(1);
                             //jb_SalvarChange.setVisible(true);
                             //jb_CancelarChange.setVisible(true);
-                            codigo = v.getCodigoVisista();
+                            codigo = v.getCodigoVisita();
 
                         } catch (Exception e) {
                             jp.showMessageDialog(DialogoAlteraVisita, "ERRO AO BUSCAR NOME!"
@@ -1363,7 +1592,7 @@ public class JanelaVisitas extends javax.swing.JFrame {
 
     private void jb_SalvarChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_SalvarChangeActionPerformed
         try {
-            visita.setCodigoVisista(codigo);
+            visita.setCodigoVisita(codigo);
             visita.setNome(jTable_Alterar.getValueAt(1, 1).toString());
             visita.setEndereco(jTable_Alterar.getValueAt(2, 1).toString());
             visita.setComplemento(jTable_Alterar.getValueAt(3, 1).toString());
@@ -1406,7 +1635,7 @@ public class JanelaVisitas extends javax.swing.JFrame {
             int response = jp.showConfirmDialog(DialogoAlteraVisita, "Imprimir Visita?", "IMPRESSÃO", jp.YES_NO_OPTION, jp.QUESTION_MESSAGE, impressao);
             switch (response) {
                 case JOptionPane.YES_OPTION:
-                    ImprimirVisita imprimeV = new ImprimirVisita(visita);
+                    //ImprimirVisita imprimeV = new ImprimirVisita(visita);
                     jp.showMessageDialog(DialogoAlteraVisita, "PDF criado com sucesso!", "OK", jp.INFORMATION_MESSAGE, salvo);
                     Desktop.getDesktop().open(new File("C:\\Users\\Public\\Visita.pdf"));
                     break;
@@ -1507,7 +1736,7 @@ public class JanelaVisitas extends javax.swing.JFrame {
                     } else {
                         modelo.setColumnIdentifiers(new String[]{"Código", "Nome", "Data", "Hora"});
                         for (int i = 0; i < vis1.size(); i++) {
-                            modelo.addRow(new String[]{String.valueOf(vis1.get(i).getCodigoVisista()), vis1.get(i).getNome(), vis1.get(i).getData().toString(), vis1.get(i).getHora().toString()});
+                            modelo.addRow(new String[]{String.valueOf(vis1.get(i).getCodigoVisita()), vis1.get(i).getNome(), vis1.get(i).getData().toString(), vis1.get(i).getHora().toString()});
                         }
                         for (Visitas v : vis) {
                             vis2 = vis;
@@ -1543,80 +1772,173 @@ public class JanelaVisitas extends javax.swing.JFrame {
         vis1.clear();
     }//GEN-LAST:event_jtf_BuscarNomeImprimirKeyPressed
 
-    private void jTable_ImprimirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_ImprimirMouseClicked
-        String a = null;
-        int b = 0;
-        Visitas v = new Visitas();
-        if (evt.getClickCount() == 1) {
-            a = jTable_Imprimir.getValueAt(jTable_Imprimir.getSelectedRow(), 0).toString();
-            b = Integer.parseInt(a);
-            System.err.println("\n VALOR OBTIDO DE A: " + a);
-            System.err.println("\n VALOR OBTIDO DE B: " + b);
-            try {
-                v = control.getVisitaCodigo(b);
-                if (v.equals("")) {
-                    jp.showMessageDialog(DialogoImprimir, "ERRO AO SELECIONAR/IMPRIMIR!", "ERRO", jp.ERROR_MESSAGE, erro);
-                } else {
-                    int response = jp.showConfirmDialog(DialogoImprimir, "Imprimir Visita de Código: [ " + v.getCodigoVisista() + " ] ? ", "IMPRESSÃO", jp.YES_NO_OPTION, jp.QUESTION_MESSAGE, impressao);
-                    switch (response) {
-                        case JOptionPane.YES_OPTION:
-                            System.out.println("\n" + v.getCodigoVisista());
-                            System.out.println("\n" + v.getNome());
-                            System.out.println("\n" + v.getEndereco());
-                            System.out.println("\n" + v.getBairro());
-                            System.out.println("\n" + v.getComplemento());
-                            System.out.println("\n" + v.getCidade());
-                            System.out.println("\n" + v.getEstado());
-                            System.out.println("\n" + v.getCep());
-                            System.out.println("\n" + v.getTelefoneFixo());
-                            System.out.println("\n" + v.getTelefoneCelular());
-                            System.out.println("\n" + v.getTelefoneRecado());
-                            System.out.println("\n" + v.getData().toString());
-                            System.out.println("\n" + v.getHora().toString());
-                            System.out.println("\n" + v.getDiaSemana());
-                            System.out.println("\n" + v.getIndicacao());
-                            System.out.println("\n" + v.getVendedor1());
-                            System.out.println("\n" + v.getVendedor2());
-                            System.out.println("\n" + v.getObservacoes());
-                            System.out.println("\n" + v.isCancelada());
-                            System.out.println("\n" + v.isVendeu());
-
-                            InputStream inputStream = getClass().getResourceAsStream("/VisitaAgendada.jasper");
-                            Map parametros = new HashMap();
-                            parametros.put("codigoVisita", b);
-                            try {
-                                ReportUtils.openReport("VisitaAgendada", inputStream, parametros);
-                                jp.showMessageDialog(DialogoImprimir, "PDF criado com sucesso!", "OK", jp.INFORMATION_MESSAGE, salvo);
-                            } catch (JRException exc) {
-                                exc.printStackTrace();
-                            }
-
-                            //*ImprimirVisita imprimeV = new ImprimirVisita(control.getVisitaCodigo(b));
-                            //Desktop.getDesktop().open(new File("C:\\Users\\Public\\Visita.pdf"));
-                            break;
-                        case JOptionPane.NO_OPTION:
-                            break;
-                    }
-                }
-            } catch (Exception e) {
-                jp.showMessageDialog(DialogoImprimir, "ERRO AO SELECIONAR/IMPRIMIR! "
-                        + "\n Causa: " + e.getCause(), "ERRO", jp.ERROR_MESSAGE, erro);
-                System.err.println("\n============================================");
-                System.err.println("\nCLASSE JANELA VISITAS");
-                System.err.println("\nERRO NO MÉTODO jTable_ImprimirMouseClicked");
-                System.err.println("\nCAUSA:    \t" + e.getCause());
-                System.err.println("\nMENSAGEM: \t" + e.getMessage() + "\n");
-                e.printStackTrace();
-                System.err.println("\n============================================");
-            }
-        }
-    }//GEN-LAST:event_jTable_ImprimirMouseClicked
-
     private void jmi_BackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_BackupActionPerformed
         MySQLBackup backup = new MySQLBackup();
         String retorno = backup.executar();
         jp.showMessageDialog(DialogoImprimir, retorno, "Backup", jp.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jmi_BackupActionPerformed
+
+    private void jmi_SairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_SairActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jmi_SairActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+       //JanelaVendedor vendedor = new JanelaVendedor(this, rootPaneCheckingEnabled);
+       //vendedor.setVisible(true);
+            
+       DialogoVendedor.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jmi_todasvisitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_todasvisitasActionPerformed
+                // TODO add your handling code here:
+    }//GEN-LAST:event_jmi_todasvisitasActionPerformed
+
+    private void jtb_vendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtb_vendedorActionPerformed
+        //JanelaVendedor janelavendedor = new JanelaVendedor(this, rootPaneCheckingEnabled);
+        //janelavendedor.setVisible(true);
+        //DialogoVisitas.setVisible(true);
+    }//GEN-LAST:event_jtb_vendedorActionPerformed
+
+    private void jTable_ImprimirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_ImprimirMouseClicked
+        // TODO add your handling code here:
+        //Object obj = jtable_vendedores.getValueAt(suaJTable.getSelectedRow(),jtable_vendedores);
+
+        System.out.println(jTable_Imprimir.getSelectedRow() + " - " + jTable_Imprimir.getSelectedColumn());
+
+        String codigoVendedor = jTable_Imprimir.getModel().getValueAt(jTable_Imprimir.getSelectedRow(), 0).toString();
+        String nomeVendedor = jTable_Imprimir.getModel().getValueAt(jTable_Imprimir.getSelectedRow(), 1).toString();
+        boolean ativo = Boolean.parseBoolean(jTable_Imprimir.getModel().getValueAt(jTable_Imprimir.getSelectedRow(), 2).toString());
+
+        jtf_codigo.setText(codigoVendedor);
+        jtf_nome.setText(nomeVendedor);
+        jtf_ativo.setSelected(ativo);
+
+        this.disableForms();
+        this.inserir = false;
+
+    }//GEN-LAST:event_jTable_ImprimirMouseClicked
+
+    private void jtb_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtb_saveActionPerformed
+
+        //Model
+        Vendedor vend = new Vendedor();
+
+        //Dao
+        VendedorDao venddao = new VendedorDao();
+
+        //seta nome
+        //seta Status
+
+        vend.setNomeVendedor(this.jtf_nome.getText());
+        vend.setAtivo(this.jtf_ativo.isSelected());
+
+        //logica do inserir
+        if(inserir){
+            if(venddao.insert(vend)){
+                JOptionPane.showMessageDialog(DialogoVendedor, "Salvo com sucesso");
+            }
+        }else{
+
+            vend.setCodigoVendedor(Integer.parseInt(this.jtf_codigo.getText()));
+            if(venddao.update(vend)){
+                JOptionPane.showMessageDialog(DialogoVendedor, "Alterado com sucesso");
+            }
+        }
+
+        this.cleanForms();
+        this.enableForms();
+        this.inserir = true;
+        tableModel.updateRow();
+
+    }//GEN-LAST:event_jtb_saveActionPerformed
+
+    private void jtb_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtb_deleteActionPerformed
+
+        //Model
+        Vendedor vend1 = new Vendedor();
+
+        //dao
+        VendedorDao venddao = new VendedorDao();
+        int codigoVendedor1 = Integer.parseInt(jTable_Imprimir.getModel().getValueAt(jTable_Imprimir.getSelectedRow(), 0).toString());
+
+        //regra
+        vend1.setCodigoVendedor(codigoVendedor1);
+        if(venddao.delete(vend1)){
+            JOptionPane.showMessageDialog(DialogoVendedor, "Deletado com sucesso");
+        }
+
+        //atualiza a planilha
+       
+        tableModel.updateRow();
+        this.cleanForms();
+        this.enableForms();
+
+    }//GEN-LAST:event_jtb_deleteActionPerformed
+
+    private void jtb_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtb_updateActionPerformed
+        this.enableForms();
+
+        if(this.inserir){
+            JOptionPane.showMessageDialog(DialogoVendedor, "Selecione primeiro uma linha");
+        }
+        else {
+            this.inserir = false;
+        }
+
+    }//GEN-LAST:event_jtb_updateActionPerformed
+
+    private void jtb_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtb_closeActionPerformed
+        DialogoVendedor.setVisible(false);
+    }//GEN-LAST:event_jtb_closeActionPerformed
+
+    private void jtb_insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtb_insertActionPerformed
+
+        this.enableForms();
+        this.cleanForms();
+
+        //troca de false para true
+        this.inserir = true;
+
+    }//GEN-LAST:event_jtb_insertActionPerformed
+
+    private void jtable_visitasKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtable_visitasKeyPressed
+        this.codigoRelatorio = (int) jtable_visitas.getValueAt(jtable_visitas.getSelectedRow(), 0);
+    }//GEN-LAST:event_jtable_visitasKeyPressed
+
+    private void jtb_buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtb_buscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtb_buscarActionPerformed
+
+    private void jtb_fecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtb_fecharActionPerformed
+        DialogoImprimir.setVisible(false);
+    }//GEN-LAST:event_jtb_fecharActionPerformed
+
+    private void jtb_imprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtb_imprimirActionPerformed
+    //        if(this.codigoRelatorio > 0){
+            
+    
+            //Chama FileChooser
+            JFileChooser file = new JFileChooser();
+            
+            //Chama relatório
+            VisitasDAO dao = new VisitasDAO();
+            List<Visitas> visitas = new ArrayList<Visitas>();
+            dao.getListaVisitas();
+            visitas = dao.getListaVisitas();
+            file.showSaveDialog(null);
+                    
+            RelatoriosJasper relvisitas = new RelatoriosJasper(EnumRelatorios.VisitaAgendada, visitas, file.getSelectedFile().getAbsolutePath());
+            
+            
+        try {
+            relvisitas.imprimir();
+            
+            //  }
+        } catch (JRException ex) {
+            Logger.getLogger(JanelaVisitas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jtb_imprimirActionPerformed
 
     private void jdc_DataActionPerformed() {
     }
@@ -1672,6 +1994,7 @@ public class JanelaVisitas extends javax.swing.JFrame {
     private javax.swing.JDialog DialogoAlteraVisita;
     private javax.swing.JDialog DialogoImprimir;
     private javax.swing.JDialog DialogoNovaVisita;
+    private javax.swing.JDialog DialogoVendedor;
     private javax.swing.JLabel Hoken;
     private javax.swing.JLabel jLAV;
     private javax.swing.JLabel jLabCompl;
@@ -1687,18 +2010,21 @@ public class JanelaVisitas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLbIcone;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenu jMenu_Arquivo;
-    private javax.swing.JMenu jMenu_Buscar;
-    private javax.swing.JMenu jMenu_Editar;
     private javax.swing.JMenu jMenu_Relatorios;
     private javax.swing.JMenu jMenu_Sobre;
     private javax.swing.JMenu jMenu_Vendedores;
     private javax.swing.JMenu jMenu_Visitas;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JTable jTable_Alterar;
@@ -1727,12 +2053,23 @@ public class JanelaVisitas extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_ImprimirVisita;
     private javax.swing.JMenuItem jmi_NovaVisita;
     private javax.swing.JMenuItem jmi_Sair;
+    private javax.swing.JMenuItem jmi_todasvisitas;
     private javax.swing.JPanel jp_alterar_salvar;
     private javax.swing.JSeparator js_JanelaVisitas;
     private javax.swing.JSeparator js_Meio;
     private javax.swing.JSeparator js_Principal;
     private javax.swing.JScrollPane jsp_observacao;
     private javax.swing.JTextArea jta_observacao;
+    private javax.swing.JTable jtable_visitas;
+    private javax.swing.JButton jtb_buscar;
+    private javax.swing.JButton jtb_close;
+    private javax.swing.JButton jtb_delete;
+    private javax.swing.JButton jtb_fechar;
+    private javax.swing.JButton jtb_imprimir;
+    private javax.swing.JButton jtb_insert;
+    private javax.swing.JButton jtb_save;
+    private javax.swing.JButton jtb_update;
+    private javax.swing.JButton jtb_vendedor;
     private javax.swing.JTextField jtfBairro;
     private javax.swing.JTextField jtfCidade;
     private javax.swing.JTextField jtfComplemento;
@@ -1743,6 +2080,9 @@ public class JanelaVisitas extends javax.swing.JFrame {
     private javax.swing.JTextField jtfSemana;
     private javax.swing.JTextField jtf_AlterarVisita;
     private javax.swing.JTextField jtf_BuscarNomeImprimir;
+    private javax.swing.JCheckBox jtf_ativo;
+    private javax.swing.JTextField jtf_codigo;
+    private javax.swing.JTextField jtf_nome;
     private javax.swing.JTabbedPane jtp_1;
     // End of variables declaration//GEN-END:variables
 

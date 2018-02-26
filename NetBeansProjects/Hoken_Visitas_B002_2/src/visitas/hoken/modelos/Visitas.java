@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class Visitas {
 
-    private int codigoVisista;
+    private int codigoVisita;
     private String nome;
     private String endereco;
     private String complemento;
@@ -35,13 +35,13 @@ public class Visitas {
     public Visitas() {
     }
 
-    public Visitas(int codigoVisista, String nome, String endereco,
+    public Visitas(int codigoVisita, String nome, String endereco,
             String complemento, String bairro, String cep, String cidade, 
             String estado, String telefoneFixo, String telefoneCelular, 
             String telefoneRecado, Date data, Time hora, String diaSemana,
             String indicacao, String Vendedor1, String Vendedor2, 
             boolean vendeu, String observacoes, boolean cancelada) {
-        this.codigoVisista = codigoVisista;
+        this.codigoVisita = codigoVisita;
         this.nome = nome;
         this.endereco = endereco;
         this.complemento = complemento;
@@ -95,12 +95,12 @@ public class Visitas {
         this.Vendedor2 = Vendedor2;
     }
 
-    public int getCodigoVisista() {
-        return codigoVisista;
+    public int getCodigoVisita() {
+        return codigoVisita;
     }
 
-    public void setCodigoVisista(int codigoVisista) {
-        this.codigoVisista = codigoVisista;
+    public void setCodigoVisita(int codigoVisista) {
+        this.codigoVisita = codigoVisista;
     }
 
     public String getNome() {
@@ -225,7 +225,7 @@ public class Visitas {
 
     @Override
     public String toString() {
-        return "Visitas{" + "codigoVisista=" + codigoVisista + ", nome=" + nome + ",endereco=" + endereco + ", complemento=" + complemento + ", bairro=" + bairro + ", cep=" + cep + ", cidade=" + cidade + ", estado=" + estado + ", telefoneFixo=" + telefoneFixo + ", telefoneCelular=" + telefoneCelular + ", telefoneRecado=" + telefoneRecado + ", data=" + data + ", hora=" + hora + ", diaSemana=" + diaSemana + ", indicacao=" + indicacao + ", Vendedor1=" + Vendedor1 + ", Vendedor2=" + Vendedor2 + ", vendeu=" + vendeu + ", observacoes=" + observacoes + ", cancelada=" + cancelada + '}';
+        return "Visitas{" + "codigoVisista=" + codigoVisita + ", nome=" + nome + ",endereco=" + endereco + ", complemento=" + complemento + ", bairro=" + bairro + ", cep=" + cep + ", cidade=" + cidade + ", estado=" + estado + ", telefoneFixo=" + telefoneFixo + ", telefoneCelular=" + telefoneCelular + ", telefoneRecado=" + telefoneRecado + ", data=" + data + ", hora=" + hora + ", diaSemana=" + diaSemana + ", indicacao=" + indicacao + ", Vendedor1=" + Vendedor1 + ", Vendedor2=" + Vendedor2 + ", vendeu=" + vendeu + ", observacoes=" + observacoes + ", cancelada=" + cancelada + '}';
     }
 
 }

@@ -17,7 +17,8 @@ public class VisitasConectaBanco {
     public Connection getConnection() {
         try {            
             DriverManager.registerDriver(new com.mysql.jdbc.Driver()); 
-            return DriverManager.getConnection("jdbc:mysql://localhost/visitas", "root", "0Pi@");
+            //return DriverManager.getConnection("jdbc:mysql://localhost/visitas", "root", "0Pi@");
+            return DriverManager.getConnection("jdbc:mysql://localhost/visitas", "root", "");
         } catch (SQLException e) {
             System.err.println("\n============================================");
             System.err.println("\nCLASSE VISITAS CONECTA BANCO");
