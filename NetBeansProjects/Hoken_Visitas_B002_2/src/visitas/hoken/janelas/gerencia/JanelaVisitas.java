@@ -514,37 +514,39 @@ public class JanelaVisitas extends javax.swing.JFrame {
                         .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
                                 .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabNome)
-                                    .addComponent(jLabDataVisita))
-                                .addGap(74, 74, 74)
-                                .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jdc_Data, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
+                                    .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
+                                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabNome)
+                                            .addComponent(jLabDataVisita))
+                                        .addGap(74, 74, 74)
+                                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jdc_Data, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
+                                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabVenS)
+                                            .addComponent(jLabVenP))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jcb_VendPrin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jcb_VendSe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
+                                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jlabIndicacao)
+                                            .addComponent(jLabHora)
+                                            .addComponent(jLabel3))
+                                        .addGap(26, 26, 26)
+                                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jtfSemana, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jfHora, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jtfIndicacao, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(jtb_vendedor))
+                                .addGap(64, 64, 64))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, DialogoNovaVisitaLayout.createSequentialGroup()
                                 .addComponent(jLabObservacoes)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jsp_observacao, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
-                                .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabVenS)
-                                    .addComponent(jLabVenP))
-                                .addGap(18, 18, 18)
-                                .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jcb_VendPrin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jcb_VendSe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(jtb_vendedor))
-                            .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
-                                .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jlabIndicacao)
-                                    .addComponent(jLabHora)
-                                    .addComponent(jLabel3))
-                                .addGap(26, 26, 26)
-                                .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jtfSemana, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jfHora, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtfIndicacao, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jsp_observacao, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addComponent(js_Meio, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -576,7 +578,7 @@ public class JanelaVisitas extends javax.swing.JFrame {
                         .addGap(89, 89, 89)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 642, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
-                        .addGap(328, 328, 328)
+                        .addGap(326, 326, 326)
                         .addComponent(jbCadastrar)))
                 .addContainerGap(62, Short.MAX_VALUE))
         );
@@ -585,44 +587,6 @@ public class JanelaVisitas extends javax.swing.JFrame {
             .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabNome)
-                            .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jLabDataVisita, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jdc_Data, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jtfSemana, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jLabHora)
-                            .addComponent(jfHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlabIndicacao)
-                            .addComponent(jtfIndicacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabVenP)
-                                    .addComponent(jcb_VendPrin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabVenS)
-                                    .addComponent(jcb_VendSe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jtb_vendedor)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jLabObservacoes)
-                            .addComponent(jsp_observacao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
@@ -662,10 +626,45 @@ public class JanelaVisitas extends javax.swing.JFrame {
                             .addComponent(jLabTelRec)))
                     .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(js_Meio, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addComponent(js_Meio, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(DialogoNovaVisitaLayout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabNome)
+                            .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabDataVisita, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jdc_Data, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jtfSemana, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabHora)
+                            .addComponent(jfHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(12, 12, 12)
+                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jlabIndicacao)
+                            .addComponent(jtfIndicacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabVenP)
+                            .addComponent(jcb_VendPrin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabVenS)
+                            .addComponent(jcb_VendSe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtb_vendedor)
+                        .addGap(18, 18, 18)
+                        .addGroup(DialogoNovaVisitaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabObservacoes)
+                            .addComponent(jsp_observacao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jbCadastrar)
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addGap(25, 25, 25))
         );
 
         DialogoAlteraVisita.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -1797,7 +1796,7 @@ public class JanelaVisitas extends javax.swing.JFrame {
     private void jtb_vendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtb_vendedorActionPerformed
         //JanelaVendedor janelavendedor = new JanelaVendedor(this, rootPaneCheckingEnabled);
         //janelavendedor.setVisible(true);
-        //DialogoVisitas.setVisible(true);
+        DialogoVendedor.setVisible(true);
     }//GEN-LAST:event_jtb_vendedorActionPerformed
 
     private void jTable_ImprimirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_ImprimirMouseClicked
@@ -1890,6 +1889,22 @@ public class JanelaVisitas extends javax.swing.JFrame {
 
     private void jtb_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtb_closeActionPerformed
         DialogoVendedor.setVisible(false);
+        
+        if(DialogoNovaVisita.isVisible()){
+            jcb_VendPrin.removeAllItems();
+            jcb_VendSe.removeAllItems();
+            
+        jcb_VendPrin.addItem("");
+        jcb_VendSe.addItem("");
+            
+        List<visitas.hoken.modelos.Vendedor> vendp = control.Vendedores();
+        for (visitas.hoken.modelos.Vendedor v : vendp) {           
+            jcb_VendPrin.addItem(v.getNomeVendedor());
+            jcb_VendSe.addItem(v.getNomeVendedor());
+        }
+            
+        }
+        
     }//GEN-LAST:event_jtb_closeActionPerformed
 
     private void jtb_insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtb_insertActionPerformed
