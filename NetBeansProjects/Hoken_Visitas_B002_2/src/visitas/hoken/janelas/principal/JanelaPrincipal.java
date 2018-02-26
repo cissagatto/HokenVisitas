@@ -5,8 +5,6 @@ package visitas.hoken.janelas.principal;
 
 import java.awt.Font;
 import java.awt.Toolkit;
-import java.awt.event.KeyAdapter;
-import java.util.Formatter;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -14,7 +12,9 @@ import javax.swing.UIManager;
 import visitas.hoken.controle.VisitasControleJanelas;
 import visitas.hoken.janelas.gerencia.*;
 import visitas.hoken.modelos.Login;
+import visitas.hoken.persistencia.LoginDAO;
 import visitas.hoken.persistencia.VisitasDAO;
+import visitas.hoken.utils.MD5;
 
 /**
  * @author Elaine Cecília Gatto - Cissa elainececiliagatto@gmail.com
@@ -38,6 +38,10 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         UIManager.put("OptionPane.messageFont", new Font("Tahoma", Font.BOLD, 18));
         jLbIcone.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+        
+        //Botão default
+        getRootPane().setDefaultButton(jBLogar);
+        
     }
 
     /**
@@ -188,11 +192,39 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             jp.showMessageDialog(rootPane, "O campo NOME DE USUÁRIO está vazio! \nPreencha corretamente todos os campos do formulário de login.", "ATENÇÃO!", jp.WARNING_MESSAGE);
         } else {
             try {
+                
                 nome = jTF_nome.getText();
                 senha = new String(jPF_senha.getPassword());
+                
+
+                //Versão criptografada
+                MD5 md5 = new MD5();
+                LoginDAO dao = new LoginDAO();
+                                   
+                if(dao.Login(nome, md5.criptografar(senha))){
+                    JOptionPane.showMessageDialog(this, "Login efetuado com sucesso");
+                    this.setVisible(false);
+                                        
+                    JanelaVisitas jfap = new JanelaVisitas();
+                    jfap.setVisible(true);
+                    
+                }
+                else{
+                            jp.showMessageDialog(rootPane, "\n Tanto o seu nome de usuário, "
+                            + "\n quanto sua senha estão errados,"
+                            + "\n ou talvez você não esteja cadastrado! "
+                            + "\n\n Verifique seu nome de usuário e senha!"
+                            + "\n\n Se você não possui cadastro, por favor,"
+                            + "\n ligue para 14-9-9102-6306 \n\n", "ERRO!", jp.WARNING_MESSAGE);
+                }
+                
+                
+                /*
+                //Versão antiga
+                
                 String nomeconferido = dao.confereNome(nome);
                 String senhaConferida = dao.confereSenha(senha);
-
+                
                 if (nome.equals(nomeconferido) && !senha.equals(senhaConferida)) {
                     jp.showMessageDialog(rootPane, "Sua senha está errada! \n Digite novamente!", "ERRO!", jp.WARNING_MESSAGE);
                 } else if (!nome.equals(nomeconferido) && senha.equals(senhaConferida)) {
@@ -225,6 +257,10 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                             + "\n Talvez o usuário não esteja cadastrado. "
                             + "\n Talvez sua senha ou seu login estejam incorretos. ", "ERRO!", jp.INFORMATION_MESSAGE, erro);
                 }*/
+                       
+                
+                
+                
             } catch (Exception e) {
                 jp.showMessageDialog(rootPane, "ERRO! "
                         + "\n Causa:" + e.getCause(), "ERRO", jp.ERROR_MESSAGE, erro);
