@@ -4,8 +4,9 @@
  */
 package visitas.hoken.relatorios.classes;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.JRException;
@@ -16,6 +17,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
+import visitas.hoken.persistencia.ConexaoMysql;
 
 /**
  *
@@ -24,19 +26,23 @@ import net.sf.jasperreports.view.JasperViewer;
 public class RelatoriosJasper {
     
     private String path = "";
-    //private String path = "src/visitas/hoken/relatorios/VisitaAgendadaOficial.jrxml"; //Exemplo
     private String pathToReportPackage = "";// = "c:/temp/default.pdf";
     private List colecao = new ArrayList<>();
     private boolean view; //visualiza no final;
     private Map parameters;
+    private Connection connection;
 
     //injeção no relatório padrão
-    public RelatoriosJasper(EnumRelatorios enumpath,List colecao, String pathToReportPackage) {
+    public RelatoriosJasper(EnumRelatorios enumpath, String pathToReportPackage) {
         this.path = enumpath.getValor();
         this.pathToReportPackage = pathToReportPackage;
         this.colecao = colecao;
-        this.view = true;
+        this.view = false;
         this.parameters = null;
+        
+        //inicializa conexão com BD
+        ConexaoMysql conecta = new ConexaoMysql();
+        connection = conecta.getConexaoMySQL();
         
     }    
     
@@ -62,24 +68,23 @@ public class RelatoriosJasper {
     
     
     //imprimir
-    public void imprimir() throws JRException{
-        
-        //Validações
-        if(colecao.isEmpty() || pathToReportPackage.isEmpty() || path.isEmpty()){
-            System.out.println("relatório precisa de uma coleção");
-            return;
-        }
-        
+    public void imprimir() throws JRException, SQLException{
+                           
         JasperReport report = JasperCompileManager.compileReport(this.path);
-        JasperPrint print = JasperFillManager.fillReport(report, this.parameters, new JRBeanCollectionDataSource(this.colecao));
+        JasperPrint print = JasperFillManager.fillReport(report, parameters, this.connection);
         JasperExportManager.exportReportToPdfFile(print, pathToReportPackage);
-        
+
         //valida se quer vizualizar no final - Default: True
         if(this.view){
            JasperViewer view = new JasperViewer(print,false);
            view.setTitle(report.getName());
            view.setVisible(true); //visualiza no final
         }
+        
+        connection.close();
+        
+        
+    
     }
     
     

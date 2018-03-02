@@ -10,7 +10,9 @@ package visitas.hoken.relatorios.classes;
  */
 public enum EnumRelatorios {
     
-    VisitaAgendada("src/visitas/hoken/relatorios/jrxml/VisitaAgendadaOficial.jrxml");
+    VisitaAgendada("src/visitas/hoken/relatorios/jrxml/VisitaAgendadaOficial.jrxml"),
+    ListaVisitas("src/visitas/hoken/relatorios/jrxml/ListaVisitas.jrxml"),
+    PrincipalVisitaAgendada("src/visitas/hoken/relatorios/jrxml/PrincipalVisitaAgendada.jrxml");
     
     //variável para setar a String
     public String valorRelatorio;
