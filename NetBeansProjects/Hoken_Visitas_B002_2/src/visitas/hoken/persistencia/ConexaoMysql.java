@@ -31,8 +31,8 @@ public class ConexaoMysql {
             String mydatabase = "visitas";        //nome do seu banco de dados
             String url = "jdbc:mysql://" + serverName + "/" + mydatabase;
             String username = "root";        //nome de um usuário de seu BD      
-            //String password = "0Pi@";      //sua senha de acesso - 3310
-            String password = "";      //sua senha de acesso - 3310
+            String password = "0Pi@";      //sua senha de acesso - 3310
+            //String password = "";      //sua senha de acesso - 3310
 
             try {
                 connection = DriverManager.getConnection(url, username, password);
