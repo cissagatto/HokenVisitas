@@ -14,7 +14,7 @@ public class Vendedor {
     private int CodigoVendedor;
    
     private String NomeVendedor;
-    
+
     private boolean Ativo;
 
     public Vendedor() {

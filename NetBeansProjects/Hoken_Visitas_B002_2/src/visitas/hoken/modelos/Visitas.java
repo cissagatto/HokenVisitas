@@ -222,7 +222,7 @@ public class Visitas {
     public void setHora(Time hora) {
         this.hora = hora;
     }
-
+    
     @Override
     public String toString() {
         return "Visitas{" + "codigoVisista=" + codigoVisita + ", nome=" + nome + ",endereco=" + endereco + ", complemento=" + complemento + ", bairro=" + bairro + ", cep=" + cep + ", cidade=" + cidade + ", estado=" + estado + ", telefoneFixo=" + telefoneFixo + ", telefoneCelular=" + telefoneCelular + ", telefoneRecado=" + telefoneRecado + ", data=" + data + ", hora=" + hora + ", diaSemana=" + diaSemana + ", indicacao=" + indicacao + ", Vendedor1=" + Vendedor1 + ", Vendedor2=" + Vendedor2 + ", vendeu=" + vendeu + ", observacoes=" + observacoes + ", cancelada=" + cancelada + '}';
