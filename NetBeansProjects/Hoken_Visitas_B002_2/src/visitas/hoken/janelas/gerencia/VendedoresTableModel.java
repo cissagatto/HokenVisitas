@@ -8,10 +8,7 @@ import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 import visitas.hoken.modelos.Vendedor;
 import java.util.List;
-import javax.swing.JCheckBox;
 import visitas.hoken.persistencia.VendedorDao;
-import visitas.hoken.utils.EnumAtivo;
-import visitas.hoken.utils.ValidaCPF;
 /**
  *
  * @author Alan
@@ -33,6 +30,14 @@ public class VendedoresTableModel  extends AbstractTableModel {
         this.fireTableDataChanged();
     }
        
+    //altera o tipo de classe da jtable
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        //return super.getColumnClass(columnIndex); //To change body of generated methods, choose Tools | Templates.
+         if (columnIndex == 2   ) return Boolean.class; // assim gera uma Checkbox.
+        return String.class;
+    }
+
 
     //Método para implementar o nome na coluna
     @Override
@@ -60,7 +65,7 @@ public class VendedoresTableModel  extends AbstractTableModel {
         switch (columnIndex){
             case 0: return dados.get(rowIndex).getCodigoVendedor() ;
             case 1: return dados.get(rowIndex).getNomeVendedor();
-            case 2: return dados.get(rowIndex).isAtivo() ? "ATIVO" : " ";
+            case 2: return dados.get(rowIndex).isAtivo();
         }
         return null;
     }

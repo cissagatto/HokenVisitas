@@ -7,7 +7,6 @@ package visitas.hoken.janelas.gerencia;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
-import visitas.hoken.persistencia.VendedorDao;
 import visitas.hoken.modelos.Visitas;
 import visitas.hoken.persistencia.VisitasDAO;
 /**
@@ -20,15 +19,16 @@ public class VisitasTableModel  extends AbstractTableModel {
     
     //linhas e colunas
     private List<Visitas> dados = new ArrayList<Visitas>();
-    private String[] colunas = {"Código" , "Nome" ,"Cidade","Estado","Data"};
+    private String[] colunas = {"Código" , "Nome" ,"Cidade","Estado","Data","Vendida","Cancelada"};
 
     public VisitasTableModel() {
         
         //Recebe lista
         VisitasDAO dao = new VisitasDAO();
         this.dados = dao.getListaVisitas();
-        
         this.fireTableDataChanged();
+       
+        
     }
        
 
@@ -51,6 +51,16 @@ public class VisitasTableModel  extends AbstractTableModel {
         return colunas.length;
     }
 
+     //altera o tipo de classe da jtable
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        //return super.getColumnClass(columnIndex); //To change body of generated methods, choose Tools | Templates.
+         if (columnIndex == 5) return Boolean.class; // assim gera uma Checkbox.
+         if (columnIndex == 6) return Boolean.class; // assim gera uma Checkbox.
+        return String.class;
+    }
+
+    //retorna o valor
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
@@ -62,6 +72,8 @@ public class VisitasTableModel  extends AbstractTableModel {
             case 2: return dados.get(rowIndex).getCidade();
             case 3: return dados.get(rowIndex).getEstado();
             case 4: return dados.get(rowIndex).getData();
+            case 5: return dados.get(rowIndex).isVendeu();
+            case 6: return dados.get(rowIndex).isCancelada();
         }
         return null;
     }
@@ -74,7 +86,7 @@ public class VisitasTableModel  extends AbstractTableModel {
         this.dados = dao.getListaVisitas();
         this.fireTableDataChanged();
     }
-    
-    
-    
-}
+          
+        
+ }
+
