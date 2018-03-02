@@ -72,7 +72,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         setResizable(false);
         setSize(new java.awt.Dimension(430, 265));
 
-        jLbIcone.setIcon(new javax.swing.ImageIcon(getClass().getResource("/visitas/hoken/imagens/hoken.jpeg"))); // NOI18N
+        jLbIcone.setIcon(new javax.swing.ImageIcon(getClass().getResource("/visitas/hoken/imagens/hokentubnaill.png"))); // NOI18N
         jLbIcone.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jLbIcone.setAlignmentX(0.5F);
         jLbIcone.setMaximumSize(new java.awt.Dimension(33000, 33000));
@@ -140,7 +140,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                                 .addComponent(jLNome, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(41, 41, 41)
                                 .addComponent(jTF_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(14, Short.MAX_VALUE))
+                        .addContainerGap(20, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(js_Principal)
                         .addContainerGap())))
@@ -168,7 +168,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBLogar)
                     .addComponent(jBSair))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");

@@ -64,7 +64,7 @@
                               <Component id="jTF_nome" min="-2" pref="165" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="14" max="32767" attributes="0"/>
+                      <EmptySpace pref="20" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Component id="js_Principal" max="32767" attributes="0"/>
@@ -101,7 +101,7 @@
                   <Component id="jBLogar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jBSair" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="17" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -110,7 +110,7 @@
     <Component class="javax.swing.JLabel" name="jLbIcone">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/visitas/hoken/imagens/hoken.jpeg"/>
+          <Image iconType="3" name="/visitas/hoken/imagens/hokentubnaill.png"/>
         </Property>
         <Property name="verticalAlignment" type="int" value="1"/>
         <Property name="alignmentX" type="float" value="0.5"/>
