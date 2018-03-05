@@ -4,6 +4,8 @@
  */
 package visitas.hoken.relatorios.classes;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +17,6 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 import visitas.hoken.persistencia.ConexaoMysql;
 
@@ -25,18 +26,19 @@ import visitas.hoken.persistencia.ConexaoMysql;
  */
 public class RelatoriosJasper {
     
-    private String path = "";
+   //private String path;
+    private InputStream path;
     private String pathToReportPackage = "";// = "c:/temp/default.pdf";
     private List colecao = new ArrayList<>();
     private boolean view; //visualiza no final;
     private Map parameters;
-    private Connection connection;
+    private Connection connection = null;
 
     //injeção no relatório padrão
     public RelatoriosJasper(EnumRelatorios enumpath, String pathToReportPackage) {
-        this.path = enumpath.getValor();
+        
+        this.path = enumpath.getPath(); //localização do .jasper - InputStream
         this.pathToReportPackage = pathToReportPackage;
-        this.colecao = colecao;
         this.view = false;
         this.parameters = null;
         
@@ -56,7 +58,7 @@ public class RelatoriosJasper {
         this.colecao = colecao;
     }
     
-    //não visualiza no final
+    //Define se vai vizualizar no final. Default: false
     public void setView(boolean view){
         this.view = view;
     }
@@ -67,9 +69,10 @@ public class RelatoriosJasper {
     }
     
     
-    //imprimir
+        //imprimir
     public void imprimir() throws JRException, SQLException{
                            
+        //JasperReport report = JasperCompileManager.compileReport(this.path);
         JasperReport report = JasperCompileManager.compileReport(this.path);
         JasperPrint print = JasperFillManager.fillReport(report, parameters, this.connection);
         JasperExportManager.exportReportToPdfFile(print, pathToReportPackage);

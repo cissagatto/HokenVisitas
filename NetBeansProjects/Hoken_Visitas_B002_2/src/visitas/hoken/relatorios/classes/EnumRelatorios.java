@@ -4,15 +4,18 @@
  */
 package visitas.hoken.relatorios.classes;
 
+import java.io.InputStream;
+
+
 /**
  *
  * @author Alan
  */
 public enum EnumRelatorios {
     
-    VisitaAgendada("src/visitas/hoken/relatorios/jrxml/VisitaAgendadaOficial.jrxml"),
-    ListaVisitas("src/visitas/hoken/relatorios/jrxml/ListaVisitas.jrxml"),
-    PrincipalVisitaAgendada("src/visitas/hoken/relatorios/jrxml/PrincipalVisitaAgendada.jrxml");
+    VisitaAgendada("/jrxml/VisitaAgendadaOficial.jrxml"),
+    ListaVisitas("/jrxml/ListaVisitas.jrxml"),
+    PrincipalVisitaAgendada("/jrxml/PrincipalVisitaAgendada.jrxml");
     
     //variável para setar a String
     public String valorRelatorio;
@@ -23,8 +26,14 @@ public enum EnumRelatorios {
     }
     
     //método para retornar valor
-    public String getValor(){
+    private String getValor(){
         return valorRelatorio;
+    }
+    
+    public InputStream getPath(){
+        
+        InputStream inputstream = getClass().getResourceAsStream(this.getValor());
+        return inputstream;
     }
     
       
