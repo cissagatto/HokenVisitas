@@ -1969,7 +1969,7 @@ public class JanelaVisitas extends javax.swing.JFrame {
         try {
             jasper.imprimir();
         } catch (JRException e) {
-            System.out.println(e);
+           JOptionPane.showMessageDialog(DialogoImprimir, e);
         } catch (SQLException ex) {
             Logger.getLogger(JanelaVisitas.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -2204,11 +2204,11 @@ public class JanelaVisitas extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
    
+        JOptionPane.showMessageDialog(DialogoImprimir, "Função ainda não compilada, por favor, aguarde.");
         
-        VisitasDAO dao = new VisitasDAO();
-        List<Visitas> visitas = dao.getListaVisitas();
+        return;
         
-        
+        /*
         //parametros
         Map parameters = new HashMap();
         parameters.put("datade", jdc_datade.getDate() );
@@ -2256,7 +2256,7 @@ public class JanelaVisitas extends javax.swing.JFrame {
         } catch (Exception e) {
             
         }
-
+        */
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
