@@ -123,7 +123,7 @@ public class JanelaVisitas extends javax.swing.JFrame {
     public void enableForms(){
         
       
-       jtf_codigoVendedor.setEnabled(true);
+       //jtf_codigoVendedor.setEnabled(true);
        jtf_nome.setEnabled(true);
        jtf_ativo.setEnabled(true);
     }
@@ -2135,7 +2135,7 @@ public class JanelaVisitas extends javax.swing.JFrame {
 
         vend.setNomeVendedor(this.jtf_nome.getText());
         vend.setAtivo(this.jtf_ativo.isSelected());
-        vend.setCodigoVendedor(Integer.parseInt(this.jtf_codigoVendedor.getText()));
+        //vend.setCodigoVendedor(Integer.parseInt(this.jtf_codigoVendedor.getText()));
 
         //logica do inserir
         if(inserir){
