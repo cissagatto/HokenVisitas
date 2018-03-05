@@ -70,12 +70,12 @@ public class VendedorDao {
         
             try {
                 
-            //String sql = "INSERT INTO vendedor (nomeVendedor, ativo) values (?,?) ";
-            String sql = "INSERT INTO vendedor (nomeVendedor, ativo, codigoVendedor) values (?,?,?) ";
+            String sql = "INSERT INTO vendedor (nomeVendedor, ativo) values (?,?) ";
+            //String sql = "INSERT INTO vendedor (nomeVendedor, ativo, codigoVendedor) values (?,?,?) ";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, vendedor.getNomeVendedor());
             stmt.setBoolean(2, vendedor.isAtivo());
-            stmt.setInt(3, vendedor.getCodigoVendedor());
+            //stmt.setInt(3, vendedor.getCodigoVendedor());
             stmt.execute(); //gravaa
             stmt.close();   //fecha conexão
             
