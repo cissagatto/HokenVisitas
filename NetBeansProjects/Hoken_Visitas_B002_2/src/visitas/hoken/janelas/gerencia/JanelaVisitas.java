@@ -253,7 +253,6 @@ public class JanelaVisitas extends javax.swing.JFrame {
         jmi_NovaVisita = new javax.swing.JMenuItem();
         jmi_AlterarVisita = new javax.swing.JMenuItem();
         jmi_listavisitas = new javax.swing.JMenuItem();
-        jSeparator4 = new javax.swing.JPopupMenu.Separator();
         jMenu_Relatorios = new javax.swing.JMenu();
         jmi_todasvisitas = new javax.swing.JMenuItem();
         jMenu_Sobre = new javax.swing.JMenu();
@@ -859,7 +858,6 @@ public class JanelaVisitas extends javax.swing.JFrame {
         DialogoImprimir.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/visitas/hoken/imagens/h.jpeg")));
         DialogoImprimir.setLocation(new java.awt.Point(200, 200));
         DialogoImprimir.setMinimumSize(new java.awt.Dimension(640, 480));
-        DialogoImprimir.setModal(true);
         DialogoImprimir.setResizable(false);
         DialogoImprimir.setSize(new java.awt.Dimension(640, 480));
 
@@ -1377,6 +1375,7 @@ public class JanelaVisitas extends javax.swing.JFrame {
         });
         jMenu_Visitas.add(jmi_AlterarVisita);
 
+        jmi_listavisitas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
         jmi_listavisitas.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jmi_listavisitas.setText("Lista Visitas");
         jmi_listavisitas.addActionListener(new java.awt.event.ActionListener() {
@@ -1385,7 +1384,6 @@ public class JanelaVisitas extends javax.swing.JFrame {
             }
         });
         jMenu_Visitas.add(jmi_listavisitas);
-        jMenu_Visitas.add(jSeparator4);
 
         BarraDeMenus.add(jMenu_Visitas);
 
@@ -1422,11 +1420,6 @@ public class JanelaVisitas extends javax.swing.JFrame {
         jMenu_Sobre.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenu_SobreMouseClicked(evt);
-            }
-        });
-        jMenu_Sobre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenu_SobreActionPerformed(evt);
             }
         });
         BarraDeMenus.add(jMenu_Sobre);
@@ -1896,19 +1889,21 @@ public class JanelaVisitas extends javax.swing.JFrame {
         jtp_1.setSelectedIndex(0);
     }//GEN-LAST:event_jb_CancelarChangeActionPerformed
 
-    private void jMenu_SobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu_SobreActionPerformed
-
-    }//GEN-LAST:event_jMenu_SobreActionPerformed
-
     private void jMenu_SobreMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu_SobreMouseClicked
         jp.showMessageDialog(jMenu_Sobre, "Este software foi desenvolvido por Elaine Cecília Gatto. "
                 + "\n Hoken Visitas. Versão Beta 0.0.1 de 01/2018"
+                + "\n "
+                + "\n Versão 1.1 por Alan Oliveira Frigério"
+                + "\n"
                 + "\n Contato: 14-9-9102-6306", "SOBRE", jp.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jMenu_SobreMouseClicked
 
     private void jMenu_SobreMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenu_SobreMenuSelected
         jp.showMessageDialog(jMenu_Sobre, "Este software foi desenvolvido por Elaine Cecília Gatto. "
-                + "\n Hoken Visitas Versão Beta 0.0.1 de 01/2018"
+                + "\n Hoken Visitas. Versão Beta 0.0.1 de 01/2018"
+                + "\n "
+                + "\n Versão 1.1 por Alan Oliveira Frigério"
+                + "\n"
                 + "\n Contato: 14-9-9102-6306", "SOBRE", jp.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jMenu_SobreMenuSelected
 
@@ -1964,10 +1959,10 @@ public class JanelaVisitas extends javax.swing.JFrame {
         jasper.setParameters(parameters);
         jasper.setView(true);
         
-        DialogoImprimir.setVisible(false);
+        //DialogoImprimir.setVisible(false);
         
         try {
-            jasper.imprimir();
+            jasper.imprimir(true);
         } catch (JRException e) {
            JOptionPane.showMessageDialog(DialogoImprimir, e);
         } catch (SQLException ex) {
@@ -2367,7 +2362,6 @@ public class JanelaVisitas extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JTable jTable_Alterar;
     private javax.swing.JTable jTable_Imprimir;

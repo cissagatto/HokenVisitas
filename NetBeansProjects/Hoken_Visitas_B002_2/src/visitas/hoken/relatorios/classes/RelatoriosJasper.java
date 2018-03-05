@@ -63,8 +63,7 @@ public class RelatoriosJasper {
         this.parameters = parameters;
     }
     
-    
-        //imprimir
+    //imprimir
     public void imprimir() throws JRException, SQLException{
                            
         //JasperReport report = JasperCompileManager.compileReport(this.path);
@@ -77,12 +76,31 @@ public class RelatoriosJasper {
            JasperViewer view = new JasperViewer(print,false);
            view.setTitle(report.getName());
            view.setVisible(true); //visualiza no final
+          
         }
         
         connection.close();
-        
-        
+
+    }
     
+    public void imprimir(boolean viewtop) throws JRException, SQLException{
+                           
+        //JasperReport report = JasperCompileManager.compileReport(this.path);
+        JasperReport report = JasperCompileManager.compileReport(this.path);
+        JasperPrint print = JasperFillManager.fillReport(report, parameters, this.connection);
+        JasperExportManager.exportReportToPdfFile(print, pathToReportPackage);
+
+        //valida se quer vizualizar no final - Default: True
+        if(this.view){
+           JasperViewer view = new JasperViewer(print,false);
+           view.setTitle(report.getName());
+           view.setVisible(true); //visualiza no final
+           view.setAlwaysOnTop(viewtop);
+           
+        }
+        
+        connection.close();
+
     }
     
     
