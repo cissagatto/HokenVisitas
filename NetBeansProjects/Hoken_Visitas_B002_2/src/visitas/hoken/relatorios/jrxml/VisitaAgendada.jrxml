@@ -349,8 +349,8 @@ WHERE codigoVisita = $P{codigoVisita}]]>
 				<textFieldExpression><![CDATA[$F{data}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="236" y="87" width="64" height="18" uuid="7cb4fa1e-b8c8-4161-afc0-c0c11a7eef1a"/>
-				<textFieldExpression><![CDATA[new SimpleDateFormat("hh:mm").format($F{hora})]]></textFieldExpression>
+				<reportElement positionType="Float" isPrintRepeatedValues="false" x="236" y="87" width="64" height="18" uuid="7cb4fa1e-b8c8-4161-afc0-c0c11a7eef1a"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("HH:mm").format($F{hora})]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
