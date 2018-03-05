@@ -4,11 +4,13 @@
  */
 package visitas.hoken.janelas.gerencia;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 import visitas.hoken.modelos.Visitas;
 import visitas.hoken.persistencia.VisitasDAO;
+import visitas.hoken.utils.Utils;
 /**
  *
  * @author Alan
@@ -71,7 +73,7 @@ public class VisitasTableModel  extends AbstractTableModel {
             case 1: return dados.get(rowIndex).getNome();
             case 2: return dados.get(rowIndex).getCidade();
             case 3: return dados.get(rowIndex).getEstado();
-            case 4: return dados.get(rowIndex).getData();
+            case 4: return new SimpleDateFormat("dd/MM/yyyy").format(dados.get(rowIndex).getData());
             case 5: return dados.get(rowIndex).isVendeu();
             case 6: return dados.get(rowIndex).isCancelada();
         }
