@@ -53,11 +53,6 @@ public class RelatoriosJasper {
         this.pathToReportPackage = pathToReportPackage;
     }
        
-    //altera coleção
-    public void setColecao(List colecao){
-        this.colecao = colecao;
-    }
-    
     //Define se vai vizualizar no final. Default: false
     public void setView(boolean view){
         this.view = view;
