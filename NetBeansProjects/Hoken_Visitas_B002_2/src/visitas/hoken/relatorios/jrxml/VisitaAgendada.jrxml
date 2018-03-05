@@ -109,14 +109,28 @@ WHERE codigoVisita = $P{codigoVisita}]]>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="32" splitType="Stretch">
+		<band height="36" splitType="Stretch">
 			<staticText>
-				<reportElement x="181" y="7" width="122" height="20" uuid="75682fe3-c909-4091-a38c-4ef17636d3fe"/>
+				<reportElement x="3" y="5" width="122" height="20" uuid="75682fe3-c909-4091-a38c-4ef17636d3fe"/>
 				<textElement>
 					<font fontName="Arial" size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Visita Agendada]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="210" y="6" width="100" height="30" uuid="8d49980b-14ba-44d0-b7d8-87b1002787f4"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cancelada} == 1 ? "CANCELADA" : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="367" y="5" width="100" height="30" uuid="4e565cbf-7317-447b-a52d-3e56d28e6806"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vendeu} == 1 ? "VENDIDA" : " "]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<detail>
@@ -281,17 +295,6 @@ WHERE codigoVisita = $P{codigoVisita}]]>
 				<textFieldExpression><![CDATA[$F{telefoneRecado}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="383" y="65" width="44" height="20" uuid="1a316a45-d2db-41fb-b72c-71dc84abdd3d"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Vendeu?]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="430" y="65" width="80" height="20" uuid="f7710863-b80c-4106-b868-e23f1d093dda"/>
-				<textFieldExpression><![CDATA[$F{vendeu}]]></textFieldExpression>
-			</textField>
-			<staticText>
 				<reportElement x="0" y="86" width="30" height="20" uuid="7d4de6db-22c1-4d15-9fbb-c8ae195bddf0"/>
 				<textElement>
 					<font isBold="true"/>
@@ -317,14 +320,14 @@ WHERE codigoVisita = $P{codigoVisita}]]>
 				<text><![CDATA[Hora:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="106" width="62" height="20" uuid="749cb232-9534-43be-98ea-53e0b23864f4"/>
+				<reportElement x="0" y="106" width="69" height="20" uuid="749cb232-9534-43be-98ea-53e0b23864f4"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Observações:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="61" y="106" width="449" height="20" uuid="ed9f0e27-3c01-4335-a9bf-bfc474f46931"/>
+				<reportElement x="70" y="106" width="439" height="20" uuid="ed9f0e27-3c01-4335-a9bf-bfc474f46931"/>
 				<textFieldExpression><![CDATA[$F{observacoes}]]></textFieldExpression>
 			</textField>
 			<staticText>
